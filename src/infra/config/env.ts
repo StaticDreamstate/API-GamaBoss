@@ -8,6 +8,7 @@ const ENV = {
   KEY: process.env.KEY as string,
   NODE_ENV: process.env.NODE_ENV as string,
   MONGODB_URL: process.env.MONGODB_URL as string,
+  IMAGES_PATH: process.env.IMAGES_PATH as string, 
 };
 
 export default ENV;
