@@ -1,6 +1,7 @@
 import server from "supertest";
 import App from "../../../infra/App";
 import {faker} from "@faker-js/faker";
+import path from "path";
 
 describe("GET /", () => {
 
@@ -33,6 +34,25 @@ describe("POST /cadastro", () => {
             })
             expect(response.statusCode).toEqual(201);
         });
+
+
+        test("Completo: Deve retornar um status 201 em caso de sucesso.", async () => {
+            const app = new App();
+            await app.setup({
+                test: true,
+              });
+            const instance = app.getInstance();
+            const response = await server(instance).post("/cadastro").send({
+                nome: faker.name.firstName(),
+                email: faker.internet.email(),
+                senha: faker.internet.password(),
+                telefone: faker.phone.number(),
+                whatsapp: faker.phone.number(),
+                avatar: path.resolve("home", "user", "Imagens", "imagem.jpg"),
+            })
+            expect(response.statusCode).toEqual(201);
+        });
+
 
         test("Cadastro de usuário repetido.", async () => {
             const app = new App();
