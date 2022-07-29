@@ -5,6 +5,7 @@ import detect from "detect-port";
 import { mongoDB } from "../database";
 import BaseRoutes from "./BaseRoutes";
 import cors from "cors";
+import path from "path";
 
 type SetupOptions = {
   test?: boolean;
@@ -24,7 +25,7 @@ export default class App {
     const selectedPort = options.port ? options.port : this.defaultPort;
     this.instance.use(cors());
     this.instance.use(Express.json());
-    this.instance.use(Express.static("uploads"));
+    this.instance.use(Express.static((path.resolve(process.cwd(), 'uploads/images'))));
     this.instance.use(BaseRoutes);
     
 
