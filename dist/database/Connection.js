@@ -28,7 +28,7 @@ class Connection {
                 logger_1.default.info("[createConnection] Conexão com o banco de dados realizada.");
             }
             catch (error) {
-                logger_1.default.error("[createConnection] Conexão Recusada:" + error);
+                logger_1.default.error(`[createConnection] Conexão Recusada: ${error}`);
             }
         });
     }

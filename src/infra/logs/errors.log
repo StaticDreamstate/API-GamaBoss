@@ -1,4 +1,0 @@
-{"level":"error","message":"[reset] Usuário não encontrado: ::ffff:127.0.0.1","service":"user-service","timestamp":"2022-07-27T03:55:27.124Z"}
-{"level":"error","message":"[recuperarSenha] Tentativa de mudança com a mesma senha - ::ffff:127.0.0.1","service":"user-service","timestamp":"2022-07-27T03:55:39.026Z"}
-{"level":"error","message":"[login] Erro de login: ::ffff:127.0.0.1","service":"user-service","timestamp":"2022-07-27T03:59:38.585Z"}
-{"level":"error","message":"[reset] Usuário não encontrado: ::ffff:127.0.0.1","service":"user-service","timestamp":"2022-07-27T04:00:42.061Z"}

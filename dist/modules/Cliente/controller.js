@@ -23,23 +23,29 @@ const controller = {
     },
     createClient(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const hash = bcryptjs_1.default.hashSync(req.body.senha, 10);
-            const { nome, email, senha, telefone, whatsapp } = req.body;
-            const { file } = req;
-            const savedClient = yield Clients_1.default.count({
-                email,
-            });
-            if (savedClient) {
-                logger_1.default.warn(`[createClient] Tentativap repetida de cadastro: ${req.socket.remoteAddress}`);
-                return res.status(400).json("Email já cadastrado no banco");
+            try {
+                const hash = bcryptjs_1.default.hashSync(req.body.senha, 10);
+                const { nome, email, senha, telefone, whatsapp } = req.body;
+                const { file } = req;
+                const savedClient = yield Clients_1.default.count({
+                    email,
+                });
+                if (savedClient) {
+                    logger_1.default.warn(`[createClient] Tentativa repetida de cadastro: ${req.socket.remoteAddress}`);
+                    return res.status(400).json("Email já cadastrado no banco");
+                }
+                const image = yield Images_1.default.create({
+                    link: `${path_1.default.resolve("uploads", "images")}${file === null || file === void 0 ? void 0 : file.filename}`,
+                    nome: file === null || file === void 0 ? void 0 : file.filename,
+                });
+                const newClient = yield Clients_1.default.create(Object.assign(Object.assign({}, req.body), { senha: hash, images: [image._id] }));
+                logger_1.default.info(`[createClient] Cliente cadastrado: ${req.socket.remoteAddress}`);
+                return res.status(201).json(newClient);
             }
-            const image = yield Images_1.default.create({
-                link: `${path_1.default.resolve("uploads", "images")}${file === null || file === void 0 ? void 0 : file.filename}`,
-                nome: file === null || file === void 0 ? void 0 : file.filename,
-            });
-            const newClient = yield Clients_1.default.create(Object.assign(Object.assign({}, req.body), { senha: hash, images: [image._id] }));
-            logger_1.default.info(`[createClient] Cliente cadastrado: ${req.socket.remoteAddress}`);
-            return res.status(201).json(newClient);
+            catch (error) {
+                logger_1.default.error(`[createClient] Erro de cadastro do cliente: ${error} - ${req.socket.remoteAddress}`);
+                return res.status(500).json(`${error}`);
+            }
         });
     },
 };

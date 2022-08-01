@@ -26,12 +26,12 @@ class App {
     }
     setup(options) {
         return __awaiter(this, void 0, void 0, function* () {
+            yield database_1.mongoDB.createConnection();
             const selectedPort = options.port ? options.port : this.defaultPort;
             this.instance.use((0, cors_1.default)());
             this.instance.use(express_1.default.json());
             this.instance.use(express_1.default.static("uploads"));
             this.instance.use(BaseRoutes_1.default);
-            yield database_1.mongoDB.createConnection();
             if (options.test) {
                 console.log("[OK] Teste de configuração.");
                 console.log(`API: ${env_1.default.API_NAME}`);
