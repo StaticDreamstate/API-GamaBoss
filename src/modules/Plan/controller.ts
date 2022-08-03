@@ -35,14 +35,14 @@ const controller = {
 
             const pet = await Pet.findById(id);
 
-            if (Object.keys(req.body).length === 0) {
-                logger.error(`[createPlan]Corpo vazio: ${req.socket.remoteAddress}`);
-                return res.status(400).json("Dados insuficientes para Cadastro");
-            }
-
             if (!pet) {
                 logger.error(`[createPlan]Pet não encontrado: ${req.socket.remoteAddress}`);
                 return res.status(404).json("Pet não cadastrado");
+            }
+
+            if (Object.keys(req.body).length === 0) {
+                logger.error(`[createPlan]Corpo vazio: ${req.socket.remoteAddress}`);
+                return res.status(400).json("Dados insuficientes para Cadastro");
             }
 
             const newPlan = await Plan.create(
